@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import LineChart from "./LineChart";
-import { getFormattedDate } from "../utility/utility";
+import { getFormattedDate, getFormattedDatetime } from "../utility/utility";
 
 const ConnectionDetails = ({ filteredData = [] }) => {
   const [data, setData] = useState([]);
@@ -19,13 +19,16 @@ const ConnectionDetails = ({ filteredData = [] }) => {
 
     endpointNames.forEach(name => {
       const data = {
-        name: "",
+        name: name,
         data: []
       };
       sortedArr.forEach(obj => {
         if (obj.endpoint === name) {
-          data.data.push(obj.requests);
-          data.name = obj.endpoint;
+          data.data.push({
+            y: obj.requests, custom: {
+              formattedTime: getFormattedDatetime(obj.time)
+            }
+          });
         }
       });
       seriesData.push(data);
@@ -42,7 +45,7 @@ const ConnectionDetails = ({ filteredData = [] }) => {
   // tooltip formatter for line chart - shows date and no. of requests
   const tooltipFormatter = point =>
     `<b>${point?.series.name}</b><br/>
-    <span class="me-2">${point?.category}</span><br/>
+    <span class="me-2">${point?.options.custom.formattedTime}</span><br/>
     <span>Requests: ${point?.y}</span>`;
 
   return (
