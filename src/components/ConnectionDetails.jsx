@@ -52,7 +52,7 @@ const ConnectionDetails = ({ filteredData = [] }) => {
     <>
       <div className="mb-3">
         <span className="fw-bold me-3">CONNECTION DETAILS</span>
-        <span>{categories.length > 0 && `${categories[0]} - ${categories[1]}`}</span>
+        <span>{categories.length > 0 && `${categories[0]} - ${categories.at(-1)}`}</span>
       </div>
       <LineChart
         chartType="line"
