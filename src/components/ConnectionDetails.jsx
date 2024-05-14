@@ -14,21 +14,28 @@ const ConnectionDetails = ({ filteredData = [] }) => {
     const xAxisCategories = [
       ...new Set(sortedArr.map(obj => obj.formattedTime))
     ];
+
     const endpointNames = [...new Set(sortedArr.map(obj => obj.endpoint))];
     const seriesData = [];
 
     endpointNames.forEach(name => {
       const data = {
         name: name,
-        data: []
+        data: new Array(xAxisCategories.length)
       };
-      sortedArr.forEach(obj => {
+      sortedArr.forEach((obj) => {
         if (obj.endpoint === name) {
-          data.data.push({
-            y: obj.requests, custom: {
-              formattedTime: getFormattedDatetime(obj.time)
+          if (xAxisCategories.indexOf(obj.formattedTime) !== -1) {
+            data.data[xAxisCategories.indexOf(obj.formattedTime)] = {
+              y: obj.requests,
+              custom: {
+                formattedTime: getFormattedDatetime(obj.time)
+              }
             }
-          });
+          }
+          else {
+            data.data[xAxisCategories.indexOf(obj.formattedTime)] = {}
+          }
         }
       });
       seriesData.push(data);
@@ -47,6 +54,8 @@ const ConnectionDetails = ({ filteredData = [] }) => {
     `<b>${point?.series.name}</b><br/>
     <span class="me-2">${point?.options.custom.formattedTime}</span><br/>
     <span>Requests: ${point?.y}</span>`;
+
+  console.log(data);
 
   return (
     <>

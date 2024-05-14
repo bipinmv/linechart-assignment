@@ -32,5 +32,5 @@ export const CONNECTION_DATA = [
     requests: 1950,
     special: true
   },
-  { endpoint: "/contact", time: "2023-10-06T02:01:17.735Z", requests: 2800 }
+  { endpoint: "/contact", time: "2023-10-06T02:01:17.735Z", requests: 2800 },
 ];
